@@ -80,6 +80,11 @@ class TopLevelSchema(Schema):
             unknown=unknown,
         )
 
+    def dump(self, obj: typing.Any, *, many: bool = None):
+        obj = {self._toplevel_field: obj}
+        processed_data = super().dump(obj, many=many)
+        return processed_data[self._toplevel_field]
+
     def validate(
         self,
         data: typing.Union[typing.Mapping, typing.Sequence],
