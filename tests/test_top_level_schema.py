@@ -130,3 +130,24 @@ class TestTopLevelSchema:
         assert isinstance(data, list)
         assert len(data) == 1
         assert isinstance(data[0]["timestamp"], datetime)
+
+    def test_dump(self) -> None:
+        schema = ArticlesSchema()
+        data = [
+            {
+                "id": 1,
+                "timestamp": datetime.now(),
+                "author": "author",
+                "text": "qweqwertyasdg",
+            }
+        ]
+        expected_dump = [
+            {
+                "id": 1,
+                "timestamp": data[0]["timestamp"].isoformat(),
+                "author": "author",
+                "text": "qweqwertyasdg",
+            }
+        ]
+        dump = schema.dump(data)
+        assert dump == expected_dump
